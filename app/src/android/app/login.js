@@ -44,6 +44,8 @@ class Login extends Component {
             showProgress: true
         });
 
+
+
         fetch(appConfig.url + 'api/login', {
             method: 'post',
             body: JSON.stringify({
@@ -80,12 +82,21 @@ class Login extends Component {
     }
 
     render() {
-        let errorCtrl;
+        let errorCtrl, showProgress;
 
         if (this.state.badCredentials) {
             errorCtrl = <Text style={styles.error}>
                 That username and password combination did not work
             </Text>;
+        }
+
+        if (this.state.showProgress) {
+            showProgress =  <ActivityIndicator
+                animating={this.state.showProgress}
+                size="large"
+                color="darkblue"
+                style={styles.loader}
+            />;
         }
 
         return (
@@ -144,7 +155,7 @@ class Login extends Component {
                             backgroundColor: 'white'
                         }}
                         value={this.state.password}
-                        editable = {!this.state.showProgress}
+                        //editable = {!this.state.showProgress}
                         placeholder='Password'
                         secureTextEntry={true}>
                     </TextInput>
@@ -160,12 +171,7 @@ class Login extends Component {
 
                     {errorCtrl}
 
-                    <ActivityIndicator
-                        animating={this.state.showProgress}
-                        size="large"
-						color="darkblue"
-                        style={styles.loader}
-                    />
+                    {showProgress}
 
                     <Text>{this.state.bugANDROID}</Text>
                 </View>
