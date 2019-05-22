@@ -155,7 +155,7 @@ class Login extends Component {
                             backgroundColor: 'white'
                         }}
                         value={this.state.password}
-                        //editable = {!this.state.showProgress}
+                        editable = {!this.state.showProgress}
                         placeholder='Password'
                         secureTextEntry={true}>
                     </TextInput>
