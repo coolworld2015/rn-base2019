@@ -1,7 +1,8 @@
 /** @format */
 
 import {AppRegistry , Platform} from 'react-native';
-import iOS from './app/src/ios/app/app';
+//import iOS from './app/src/ios/app/app';
+import iOS from './navigation';
 import Android from './app/src/android/app/app';
 import {name as appName} from './app.json';
 

@@ -55,3 +55,6 @@ CONFIG -> android/app ->build.gradle /applicationId + versionName
 -------------------------------------------------------------------------------------------------
 NAME -> android\app\src\main\res\values\strings
 -------------------------------------------------------------------------------------------------
+npm install --save react-navigation
+npm install --save react-native-gesture-handler
+react-native link react-native-gesture-handler
