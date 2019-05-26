@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 
 import Login from './login';
 import AppContainer from './appContainer';
+import AppContainer1 from './../../../../navigation';
 
 console.disableYellowBox = true;
 
@@ -19,7 +20,7 @@ class App extends Component {
             access_token: '',
             url: 'http://jwt-base.herokuapp.com/',
             onLogOut: this.onLogOut.bind(this),
-            balance: {
+            users: {
                 refresh: true,
                 items: [],
                 item: {}
@@ -50,7 +51,7 @@ class App extends Component {
     render() {
         if (this.state.isLoggedIn) {
             return (
-                <AppContainer onLogOut={this.onLogOut.bind(this)}/>
+                <AppContainer1 onLogOut={this.onLogOut.bind(this)}/>
             )
         } else {
             return (

@@ -233,7 +233,7 @@ class Contacts extends Component {
                                 borderWidth: 3,
                                 borderColor: 'white',
                                 borderRadius: 0,
-                                width: this.state.width * .90,
+                                width: Dimensions.get('window').width * .90,
                             }}
                             value={this.state.searchQuery}
                             placeholder="Search here">
@@ -246,7 +246,7 @@ class Contacts extends Component {
                         borderColor: 'white',
                         marginLeft: -5,
                         paddingLeft: 5,
-                        width: this.state.width * .10,
+                        width: Dimensions.get('window').width * .10,
                     }}>
                         <TouchableWithoutFeedback
                             onPress={() => this.clearSearchQuery()}
