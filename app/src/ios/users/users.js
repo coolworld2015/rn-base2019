@@ -11,7 +11,7 @@ import {
     ScrollView,
     ActivityIndicator,
     TextInput,
-    Alert, Dimensions, Image
+    Dimensions, Image
 } from 'react-native';
 
 import UserDetails from './userDetails';
@@ -33,22 +33,14 @@ class Users extends Component {
             positionY: 0,
             searchQuery: ''
         };
-
     }
 
     componentDidMount() {
         this.getItems();
     }
 
-    componentWillUpdate() {
-        if (appConfig.users.refresh) {
-            appConfig.users.refresh = false;
-
-            this.setState({
-                showProgress: true,
-                resultsCount: 0
-            });
-
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.navigation.state.params.refresh) {
             this.getItems();
         }
     }
@@ -71,7 +63,7 @@ class Users extends Component {
                     filteredItems: responseData
                 });
             })
-            .catch((error) => {
+            .catch(() => {
                 this.setState({
                     serverError: true
                 });
@@ -121,7 +113,7 @@ class Users extends Component {
                     });
                 }
             })
-            .catch((error) => {
+            .catch(() => {
                 this.setState({
                     serverError: true
                 });

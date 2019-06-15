@@ -93,6 +93,46 @@ class UserDetails extends Component {
         );
     }
 
+    deleteItem() {
+        this.setState({
+            showProgress: true,
+            bugANDROID: ' '
+        });
+
+        fetch(appConfig.url + 'api/users/delete', {
+            method: 'post',
+            body: JSON.stringify({
+                id: this.state.id,
+                authorization: appConfig.access_token
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                if (responseData.text) {
+                    this.props.navigation.navigate('Users', { refresh: true})
+                } else {
+                    this.setState({
+                        badCredentials: true
+                    });
+                }
+            })
+            .catch((error) => {
+                this.setState({
+                    serverError: true
+                });
+            })
+            .finally(() => {
+                this.setState({
+                    showProgress: false
+                });
+            });
+
+    }
+
     render() {
         let errorCtrl, validCtrl;
 
