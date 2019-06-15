@@ -130,6 +130,10 @@ class UserDetails extends Component {
 
     }
 
+    goBack() {
+        this.props.navigation.goBack();
+    }
+
     render() {
         let errorCtrl, validCtrl;
 
@@ -150,7 +154,7 @@ class UserDetails extends Component {
                 <View style={styles.header}>
                     <View>
                         <TouchableHighlight
-                            onPress={() => this.props.navigation.navigate('Users')}
+                            onPress={()=> this.goBack()}
                             underlayColor='darkblue'
                         >
                             <View>

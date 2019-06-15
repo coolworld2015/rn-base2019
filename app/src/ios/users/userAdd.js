@@ -64,6 +64,10 @@ class UserAdd extends Component {
             });
     }
 
+    goBack() {
+        this.props.navigation.goBack();
+    }
+
     render() {
         let errorCtrl, validCtrl;
 
@@ -84,7 +88,7 @@ class UserAdd extends Component {
                 <View style={styles.header}>
                     <View>
                         <TouchableHighlight
-                            onPress={() => this.props.navigation.navigate('Users')}
+                            onPress={()=> this.goBack()}
                             underlayColor='darkblue'
                         >
                             <View>

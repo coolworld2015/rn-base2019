@@ -36,11 +36,11 @@ class SearchResults extends Component {
             dataSource: ds.cloneWithRows([])
         };
 
-        if (props.data) {
+        if (props) {
             this.state = {
                 dataSource: ds.cloneWithRows([]),
-                searchQueryHttp: props.data.searchQuery,
-                searchType: props.data.searchType,
+                searchQueryHttp: props.navigation.state.params.data.searchQuery,
+                searchType: props.navigation.state.params.data.searchType,
                 showProgress: true,
                 resultsCount: 0,
                 recordsCount: 15,
@@ -117,10 +117,7 @@ class SearchResults extends Component {
     }
 
     showDetails(rowData) {
-        this.props.navigator.push({
-            index: 1,
-            data: rowData
-        });
+        this.props.navigation.navigate('PhoneDetails', {data: rowData})
     }
 
     renderRow(rowData) {
@@ -199,8 +196,8 @@ class SearchResults extends Component {
         this.getItems();
     }
 	
-    goBack(rowData) {
-        this.props.navigator.pop();
+    goBack() {
+        this.props.navigation.goBack();
     }
 	
     clearSearchQuery() {

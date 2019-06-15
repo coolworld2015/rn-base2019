@@ -40,7 +40,7 @@ class PhoneDetails extends Component {
     }
 
     goBack() {
-        this.props.navigation.navigate('Phones')
+        this.props.navigation.goBack();
     }
 
     render() {

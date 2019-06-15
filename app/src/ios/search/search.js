@@ -48,13 +48,12 @@ class Search extends Component {
             return;
         }
 
-        this.props.navigator.push({
-            index: 3,
+        this.props.navigation.navigate('SearchResults', {
             data: {
                 searchQuery: this.state.searchQuery,
                 searchType: this.state.textSwitchBase
             }
-        });
+        })
     }
 
     toggleTypeChange() {

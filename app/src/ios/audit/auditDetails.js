@@ -41,7 +41,7 @@ class AuditDetails extends Component {
     }
 
     goBack() {
-        this.props.navigation.navigate('Audit')
+        this.props.navigation.goBack();
     }
 
     render() {
