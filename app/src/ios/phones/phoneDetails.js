@@ -26,21 +26,21 @@ class PhoneDetails extends Component {
             name: ''
         };
 
-        if (props.data) {
+        if (props) {
             this.state = {
-                id: props.data.id,
-                name: props.data.name,
-                phone: props.data.phone,
-                street: props.data.street,
-                house: props.data.house,
-                apt: props.data.apt,
-                index: props.data.index
+                id: props.navigation.state.params.data.id,
+                name: props.navigation.state.params.data.name,
+                phone: props.navigation.state.params.data.phone,
+                street: props.navigation.state.params.data.street,
+                house: props.navigation.state.params.data.house,
+                apt: props.navigation.state.params.data.apt,
+                index: props.navigation.state.params.data.index
             };
         }
     }
 
     goBack() {
-        this.props.navigator.pop();
+        this.props.navigation.navigate('Phones')
     }
 
     render() {

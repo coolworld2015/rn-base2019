@@ -95,16 +95,11 @@ class Phones extends Component {
     }
 
     showDetails(rowData) {
-        this.props.navigator.push({
-            index: 1,
-            data: rowData
-        });
+        this.props.navigation.navigate('PhoneDetails', {data: rowData})
     }
 
     goSearch() {
-        this.props.navigator.push({
-            index: 2
-        });
+        this.props.navigation.navigate('Search')
     }
 
     renderRow(rowData) {

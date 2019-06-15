@@ -20,8 +20,8 @@ class Search extends Component {
         this.state = {
             showProgress: false,
             eventSwitchTitle: false,
-            eventSwitchBase: false,
-            textSwitchBase: 'Search by phone',
+            eventSwitchBase: true,
+            textSwitchBase: 'Search by name',
             bugANDROID: ''
         }
     }
@@ -70,7 +70,7 @@ class Search extends Component {
     }
 
     goBack() {
-        this.props.navigator.pop();
+        this.props.navigation.navigate('Phones')
     }
 
     render() {
@@ -155,7 +155,7 @@ class Search extends Component {
                                     width: Dimensions.get('window').width * .94,
                                     fontSize: 18,
                                     color: 'darkblue',
-                                    paddingTop: 6
+                                    paddingTop: 0
                                 }}
 								placeholderTextColor="darkblue"
                                 placeholder="Search here">
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     },
     switchItemText: {
         fontSize: 18,
-        marginTop: 10,
+        marginTop: 14,
         margin: 10,
 		color: 'darkblue'
     },
