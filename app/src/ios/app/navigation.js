@@ -1,33 +1,26 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 
 import Users from '../users/users';
 import UserDetails from '../users/userDetails';
-
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
-      </View>
-    );
-  }
-}
-
+import UserAdd from '../users/userAdd';
 
 const UsersTab = createStackNavigator({
   Users: Users,
-  UserDetails: UserDetails
+  UserDetails: UserDetails,
+  UserAdd: UserAdd
 });
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-});
+class Quit extends React.Component {
+  render() {
+    window.appConfig.onLogOut();
+    return null
+  }
+}
 
 const TabNavigator = createBottomTabNavigator({
   Users: UsersTab,
-  Home: HomeStack
+  Quit: Quit
 });
 
 export default createAppContainer(TabNavigator);

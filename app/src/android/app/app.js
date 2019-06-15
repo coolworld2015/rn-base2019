@@ -29,21 +29,20 @@ class App extends Component {
             access_token: '',
             url: 'http://jwt-base.herokuapp.com/',
 			onLogOut: this.onLogOut.bind(this),
-			balance: {
-                refresh: false
-            },
-            outputs: {
-                refresh: false
-            },
-            contacts: {
-                refresh: false
-            },
-
-            users: {
-                refresh: false
-            },
             phones: {
-                refresh: false
+                refresh: true,
+                items: [],
+                item: {}
+            },
+            users: {
+                refresh: true,
+                items: [],
+                item: {}
+            },
+            audit: {
+                refresh: true,
+                items: [],
+                item: {}
             }
         };
     }

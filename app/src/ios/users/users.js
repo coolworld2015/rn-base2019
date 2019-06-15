@@ -135,29 +135,11 @@ class Users extends Component {
 
     showDetails(rowData) {
         appConfig.users.item = rowData;
-        this.props.navigation.navigate('UserDetails')
-/*        this.props.navigator.push({
-            title: rowData.name,
-            component: UserDetails,
-            rightButtonTitle: 'Delete',
-            onRightButtonPress: () => {
-                Alert.alert(
-                    'Delete user',
-                    'Are you sure you want to delete user ' + rowData.name + '?',
-                    [
-                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-                        {
-                            text: 'OK', onPress: () => {
-                            this.deleteItem(rowData.id);
-                        }
-                        },
-                    ]
-                );
-            },
-            passProps: {
-                data: rowData
-            }
-        });*/
+        this.props.navigation.navigate('UserDetails');
+    }
+
+    addItem() {
+        this.props.navigation.navigate('UserAdd');
     }
 
     renderRow(rowData) {
@@ -294,7 +276,7 @@ class Users extends Component {
                         >
                             <View>
                                 <Text style={styles.textSmall}>
-
+                                    New
                                 </Text>
                             </View>
                         </TouchableHighlight>
@@ -400,7 +382,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
         marginTop: 14,
-        //paddingLeft: 10,
+        paddingLeft: 60,
+        fontWeight: 'bold',
+        color: 'white'
+    },
+    textSmall: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 16,
         fontWeight: 'bold',
         color: 'white'
     },
@@ -422,10 +411,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderColor: 'lightgray',
         borderWidth: 3
-    },
-    scroll: {
-        //marginTop: -65,
-        //marginBottom: -45
     },
     countFooter: {
         fontSize: 16,
