@@ -258,14 +258,14 @@ const styles = StyleSheet.create({
         borderColor: 'whitesmoke'
     },
     textSmall: {
-        fontSize: 20,
+        fontSize: 16,
         textAlign: 'center',
         margin: 16,
         fontWeight: 'bold',
         color: 'white'
     },
     textLarge: {
-        fontSize: 24,
+        fontSize: 20,
         textAlign: 'center',
         margin: 10,
         marginTop: 12,
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#fff',
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold'
     },
     loader: {

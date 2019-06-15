@@ -5,10 +5,18 @@ import Users from '../users/users';
 import UserDetails from '../users/userDetails';
 import UserAdd from '../users/userAdd';
 
+import Audit from '../audit/audit';
+import AuditDetails from '../audit/auditDetails';
+
 const UsersTab = createStackNavigator({
-  Users: Users,
-  UserDetails: UserDetails,
-  UserAdd: UserAdd
+  Users,
+  UserDetails,
+  UserAdd
+});
+
+const AuditTab = createStackNavigator({
+  Audit,
+  AuditDetails
 });
 
 class Quit extends React.Component {
@@ -20,6 +28,7 @@ class Quit extends React.Component {
 
 const TabNavigator = createBottomTabNavigator({
   Users: UsersTab,
+  Audit: AuditTab,
   Quit: Quit
 });
 

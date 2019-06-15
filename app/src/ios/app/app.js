@@ -20,7 +20,6 @@ class App extends Component {
             url: 'http://jwt-base.herokuapp.com/',
             onLogOut: this.onLogOut.bind(this),
             phones: {
-                refresh: true,
                 items: [],
                 item: {}
             },
@@ -29,7 +28,6 @@ class App extends Component {
                 item: {}
             },
             audit: {
-                refresh: true,
                 items: [],
                 item: {}
             }

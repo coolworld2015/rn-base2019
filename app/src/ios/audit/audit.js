@@ -11,12 +11,12 @@ import {
     ScrollView,
     ActivityIndicator,
     TextInput,
-    Dimensions, Image
+	Image,
+	Dimensions,
+	RefreshControl
 } from 'react-native';
 
-import UserDetails from './userDetails';
-
-class Users extends Component {
+class Audit extends Component {
     constructor(props) {
         super(props);
 
@@ -29,24 +29,30 @@ class Users extends Component {
             showProgress: true,
             serverError: false,
             resultsCount: 0,
-            recordsCount: 25,
+            recordsCount: 15,
             positionY: 0,
-            searchQuery: ''
+			searchQuery: '',
+			refreshing: false
         };
     }
 
     componentDidMount() {
+		this.setState({
+            width: Dimensions.get('window').width
+        });
         this.getItems();
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.navigation.state.params.refresh) {
-            this.getItems();
-        }
-    }
-
     getItems() {
-        fetch(appConfig.url + 'api/users/get', {
+		this.setState({
+			serverError: false,
+            resultsCount: 0,
+            recordsCount: 15,
+            positionY: 0,
+			searchQuery: ''
+        });
+		
+        fetch(appConfig.url + 'api/audit/get', {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -56,64 +62,15 @@ class Users extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
+
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort).slice(0, 25)),
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.slice(0, 15)),
                     resultsCount: responseData.length,
                     responseData: responseData,
                     filteredItems: responseData
                 });
             })
-            .catch(() => {
-                this.setState({
-                    serverError: true
-                });
-            })
-            .finally(() => {
-                this.setState({
-                    showProgress: false
-                });
-            });
-    }
-
-    sort(a, b) {
-        let nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
-        if (nameA < nameB) {
-            return -1
-        }
-        if (nameA > nameB) {
-            return 1
-        }
-        return 0;
-    }
-
-    deleteItem(id) {
-        this.setState({
-            showProgress: true
-        });
-
-        fetch(appConfig.url + 'api/users/delete', {
-            method: 'post',
-            body: JSON.stringify({
-                id: id,
-                authorization: appConfig.access_token
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                if (responseData.text) {
-                    appConfig.users.refresh = true;
-                    this.props.navigator.pop();
-                } else {
-                    this.setState({
-                        badCredentials: true
-                    });
-                }
-            })
-            .catch(() => {
+            .catch((error) => {
                 this.setState({
                     serverError: true
                 });
@@ -126,12 +83,8 @@ class Users extends Component {
     }
 
     showDetails(rowData) {
-        appConfig.users.item = rowData;
-        this.props.navigation.navigate('UserDetails');
-    }
-
-    addItem() {
-        this.props.navigation.navigate('UserAdd');
+        appConfig.audit.item = rowData;
+        this.props.navigation.navigate('AuditDetails');
     }
 
     renderRow(rowData) {
@@ -142,7 +95,7 @@ class Users extends Component {
             >
                 <View style={styles.row}>
                     <Text style={styles.rowText}>
-                        {rowData.name}
+                        {rowData.name} - {rowData.date}
                     </Text>
                 </View>
             </TouchableHighlight>
@@ -152,20 +105,6 @@ class Users extends Component {
     refreshData(event) {
         if (this.state.showProgress === true) {
             return;
-        }
-
-        if (event.nativeEvent.contentOffset.y <= -100) {
-                this.setState({
-                showProgress: true,
-                resultsCount: 0,
-                recordsCount: 25,
-                positionY: 0,
-                searchQuery: ''
-            });
-
-            setTimeout(() => {
-                this.getItems()
-            }, 300);
         }
 
         if (this.state.filteredItems === undefined) {
@@ -201,13 +140,26 @@ class Users extends Component {
         })
     }
 
+    refreshDataAndroid() {
+        this.setState({
+            showProgress: true,
+            resultsCount: 0
+        });
+
+        this.getItems();
+    }
+
+    goBack() {
+        this.props.navigator.pop();
+    }
+
     clearSearchQuery() {
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.state.responseData.slice(0, 25)),
+            dataSource: this.state.dataSource.cloneWithRows(this.state.responseData.slice(0, 15)),
             resultsCount: this.state.responseData.length,
             filteredItems: this.state.responseData,
             positionY: 0,
-            recordsCount: 25,
+            recordsCount: 15,
             searchQuery: ''
         });
     }
@@ -229,22 +181,22 @@ class Users extends Component {
             loader = <View style={styles.loader}>
                 <ActivityIndicator
                     size="large"
-                    color="darkblue"
+					color="darkblue"
                     animating={true}
                 />
             </View>;
         }
 
-        if (this.state.searchQuery.length > 0) {
-            image = <Image
-                source={require('../../../img/cancel.png')}
-                style={{
-                    height: 20,
-                    width: 20,
-                    marginTop: 10
-                }}
-            />;
-        }
+		if (this.state.searchQuery.length > 0) {
+			image = <Image
+				source={require('../../../img/cancel.png')}
+				style={{
+					height: 20,
+					width: 20,
+					marginTop: 10
+				}}
+			/>;
+		}
 
         return (
             <View style={styles.container}>
@@ -253,7 +205,7 @@ class Users extends Component {
                         <TouchableWithoutFeedback onPress={this.onMenu.bind(this)}>
                             <View>
                                 <Image style={styles.menu}
-                                       source={require('../../../img/menu.png')}
+                                   source={require('../../../img/menu.png')}
                                 />
                             </View>
                         </TouchableWithoutFeedback>
@@ -262,84 +214,83 @@ class Users extends Component {
                         <TouchableWithoutFeedback>
                             <View>
                                 <Text style={styles.textLarge}>
-                                    Users
+                                    Audit
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
                     <View>
-                        <TouchableHighlight
-                            onPress={()=> this.addItem()}
-                            underlayColor='darkblue'
-                        >
+                        <TouchableWithoutFeedback>
                             <View>
                                 <Text style={styles.textSmall}>
-                                    New
+									New
                                 </Text>
                             </View>
-                        </TouchableHighlight>
+                        </TouchableWithoutFeedback>
                     </View>
                 </View>
 
                 <View style={styles.iconForm}>
-                    <View>
-                        <TextInput
-                            onChangeText={this.onChangeText.bind(this)}
-                            style={{
-                                height: 45,
-                                padding: 5,
-                                backgroundColor: 'white',
-                                borderWidth: 3,
-                                borderColor: 'white',
-                                borderRadius: 0,
-                                width: Dimensions.get('window').width * .90,
-                            }}
-                            value={this.state.searchQuery}
-                            placeholder="Search here">
-                        </TextInput>
-                    </View>
-                    <View style={{
-                        height: 45,
-                        backgroundColor: 'white',
-                        borderWidth: 3,
-                        borderColor: 'white',
-                        marginLeft: -5,
-                        paddingLeft: 5,
-                        width: Dimensions.get('window').width * .10,
-                    }}>
-                        <TouchableWithoutFeedback
-                            onPress={() => this.clearSearchQuery()}
-                        >
-                            <View>
-                                {image}
-                            </View>
-                        </TouchableWithoutFeedback>
-                    </View>
+					<View>
+						<TextInput
+							underlineColorAndroid='rgba(0,0,0,0)'
+							onChangeText={this.onChangeText.bind(this)}
+							style={{
+								height: 45,
+								padding: 5,
+								backgroundColor: 'white',
+								borderWidth: 3,
+								borderColor: 'white',
+								borderRadius: 0,
+								width: Dimensions.get('window').width * .90,
+							}}
+							value={this.state.searchQuery}
+							placeholder="Search here">
+						</TextInput>
+					</View>
+					<View style={{
+						height: 45,
+						backgroundColor: 'white',
+						borderWidth: 3,
+						borderColor: 'white',
+						marginLeft: -10,
+						paddingLeft: 5,
+						width: Dimensions.get('window').width * .10,
+					}}>			
+						<TouchableWithoutFeedback
+							onPress={() => this.clearSearchQuery()}
+						>			
+							<View>					
+								{image}
+							</View>
+						</TouchableWithoutFeedback>
+					</View>
                 </View>
 
                 {errorCtrl}
 
                 {loader}
 
-                <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
-                    <ListView
-                        style={styles.scroll}
-                        enableEmptySections={true}
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderRow.bind(this)}
-                    />
-                </ScrollView>
+				<ScrollView onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
+					refreshControl={
+						<RefreshControl
+							enabled={true}
+							refreshing={this.state.refreshing}
+							onRefresh={this.refreshDataAndroid.bind(this)}
+						/>
+					}
+				>
+					<ListView
+						enableEmptySections={true}
+						dataSource={this.state.dataSource}
+						renderRow={this.renderRow.bind(this)}
+					/>
+				</ScrollView>
 
                 <View>
-                    <TouchableWithoutFeedback
-                        onPress={() => this.clearSearchQuery()}>
-                        <View>
-                            <Text style={styles.countFooter}>
-                                Records: {this.state.resultsCount}
-                            </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
+                    <Text style={styles.countFooter}>
+                        Records: {this.state.resultsCount.toString()}
+                    </Text>
                 </View>
             </View>
         )
@@ -352,12 +303,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white'
     },
-    iconForm: {
-        flexDirection: 'row',
-        //borderColor: 'lightgray',
-        borderColor: 'darkblue',
-        borderWidth: 3
-    },
+	iconForm: {
+		flexDirection: 'row',
+		//borderColor: 'lightgray',
+		borderColor: 'darkblue',
+		borderWidth: 3
+	},
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -431,4 +382,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Users;
+export default Audit;
