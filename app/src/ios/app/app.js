@@ -3,8 +3,7 @@
 import React, {Component} from 'react';
 
 import Login from './login';
-import AppContainer from './appContainer';
-import AppContainer1 from './../../../../navigation';
+import AppContainer from './navigation';
 
 console.disableYellowBox = true;
 
@@ -51,7 +50,7 @@ class App extends Component {
     render() {
         if (this.state.isLoggedIn) {
             return (
-                <AppContainer1 onLogOut={this.onLogOut.bind(this)}/>
+                <AppContainer onLogOut={this.onLogOut.bind(this)}/>
             )
         } else {
             return (
