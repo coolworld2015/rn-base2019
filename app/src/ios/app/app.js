@@ -25,7 +25,6 @@ class App extends Component {
                 item: {}
             },
             users: {
-                refresh: true,
                 items: [],
                 item: {}
             },

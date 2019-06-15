@@ -25,9 +25,6 @@ class UserDetails extends Component {
     }
 
     updateItem() {
-        this.props.navigation.navigate('Users');
-        return;
-
         if (this.state.name === undefined || this.state.name === '' ||
             this.state.pass === undefined || this.state.pass === '' ||
             this.state.description === undefined || this.state.description === '') {
@@ -58,8 +55,8 @@ class UserDetails extends Component {
             .then((response) => response.json())
             .then((responseData) => {
                 if (responseData.pass) {
-                    appConfig.users.refresh = true;
-                    this.props.navigator.pop();
+                    this.props.navigation.navigate('Users', { refresh: true})
+
                 } else {
                     this.setState({
                         badCredentials: true
