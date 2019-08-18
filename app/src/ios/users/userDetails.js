@@ -25,8 +25,7 @@ class UserDetails extends Component {
     }
 
     updateItem() {
-        if (this.state.name === undefined || this.state.name === '' ||
-            this.state.pass === undefined || this.state.pass === '' ||
+        if (this.state.name === undefined || this.state.pass === '' ||
             this.state.description === undefined || this.state.description === '') {
             this.setState({
                 invalidValue: true
