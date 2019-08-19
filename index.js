@@ -10,6 +10,4 @@ const App = Platform.select({
     android: () => Android,
 })();
 
-
-
 AppRegistry.registerComponent(appName, () => App);

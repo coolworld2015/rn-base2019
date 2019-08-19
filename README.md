@@ -41,8 +41,8 @@ add VirtualBox
 -------------------------------------------------------------------------------------------------
 ERROR -> cd android/ && ./gradlew clean
 -------------------------------------------------------------------------------------------------
-mkdir android/app/src/main/assets
-
+MAKE DIR--> android/app/src/main/assets
+-------------------------------------------------------------------------------------------------
 APK -> react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 -------------------------------------------------------------------------------------------------
 APK -> cd android && ./gradlew assembleDebug
@@ -58,3 +58,7 @@ NAME -> android\app\src\main\res\values\strings
 npm install --save react-navigation
 npm install --save react-native-gesture-handler
 react-native link react-native-gesture-handler
+-------------------------------------------------------------------------------------------------
+react-native link react-native-gesture-handler
+cd ios && pod install && cd ..
+react-native run-ios
