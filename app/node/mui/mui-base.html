@@ -6,17 +6,17 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
 
-    <link rel="stylesheet" href="./dist/css.css">
-    <link rel="stylesheet" href="./dist/vue-material.min.css">
-    <link rel="stylesheet" href="./dist/default.css">
-    <script src="./dist/vue.js"></script>
-    <script src="./dist/vue-material.min.js"></script>
+    <link rel="stylesheet" href="./lib/css.css">
+    <link rel="stylesheet" href="./lib/vue-material.min.css">
+    <link rel="stylesheet" href="./lib/default.css">
+    <script src="./lib/vue.js"></script>
+    <script src="./lib/vue-material.min.js"></script>
 
-    <script src="./dist/vue-resource.min.js"></script>
-    <script src="./dist/vue-router.js"></script>
+    <script src="./lib/vue-resource.min.js"></script>
+    <script src="./lib/vue-router.js"></script>
 
-    <script src="./dist/axios.min.js"></script>
-    <script src="./dist/moment.min.js"></script>
+    <script src="./lib/axios.min.js"></script>
+    <script src="./lib/moment.min.js"></script>
 </head>
 
 <style>
@@ -344,8 +344,8 @@
 
                 this.$http.get(appConfig.url + 'api/items/get', {headers: {'Authorization': appConfig.access_token}})
                     .then(result => {
-                        this.items = result.data.splice(0, 1000);
-                        this.filteredItems = result.data.splice(0, 1000);
+                        this.items = result.data.sort(this.sort).splice(0, 1000);
+                        this.filteredItems = result.data.sort(this.sort).splice(0, 1000);
                         this.searched = this.items;
                         this.loading = false;
                         setTimeout(() => {
@@ -387,7 +387,7 @@
                 }
             },
             sort(a, b) {
-                return parseInt(b.id) - parseInt(a.id);
+                return parseInt(b.name) - parseInt(a.name);
             },
             handleScroll() {
                 let position = document.querySelector('.md-table-content').scrollTop;
@@ -403,7 +403,7 @@
                 }
             },
             searchOnTable() {
-                this.searched = this.searchByName(this.filteredItems, this.search)
+                this.searched = this.searchByName(this.items, this.search)
             },
             searchByName(items, term) {
                 if (term) {
@@ -412,7 +412,7 @@
                 return items
             },
             searchOnTablePhone() {
-                this.searched = this.searchByPhone(this.filteredItems, this.search)
+                this.searched = this.searchByPhone(this.items, this.search)
             },
             searchByPhone(items, term) {
                 if (term) {
