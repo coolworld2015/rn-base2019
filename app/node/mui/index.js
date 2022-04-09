@@ -116,7 +116,6 @@ const server = express()
         });
     })
 
-//------------------------------------------------------------------------
     .get('/api/items/getall', (req, res) => {
         client.connect(err => {
             if (err) {
@@ -140,7 +139,6 @@ const server = express()
         });
     })
 
-//------------------------------------------------------------------------
     .get('/api/items/findByName/:name', (req, res) => {
         client.connect(err => {
             if (err) {
@@ -164,7 +162,6 @@ const server = express()
         });
     })
 
-//------------------------------------------------------------------------
     .get('/api/items/findByPhone/:phone', (req, res) => {
         client.connect(err => {
             if (err) {
